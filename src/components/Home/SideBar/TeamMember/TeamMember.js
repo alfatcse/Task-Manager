@@ -4,7 +4,6 @@ import Member from "./Member";
 
 const TeamMember = () => {
   const { data: team, isError, isLoading, error } = useGetTeamQuery();
-  console.log(team);
   let content = null;
   if (isLoading) {
     content = <div>Loading...</div>;

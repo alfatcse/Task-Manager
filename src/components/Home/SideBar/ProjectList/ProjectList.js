@@ -4,7 +4,6 @@ import Project from "./Project";
 
 const ProjectList = () => {
   const { data: projects, isError, isLoading, error } = useGetProjectsQuery();
-  console.log(projects);
   let content = null;
   if (isLoading) {
     content = <div>Loading...</div>;

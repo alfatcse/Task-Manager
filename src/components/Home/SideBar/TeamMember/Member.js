@@ -1,9 +1,10 @@
 import React from 'react';
-import sumit from "../../../../images/avatars/sumit.png";
+
 const Member = ({member}) => {
+    let i=`.${member.avatar}`
     return (
         <div className="checkbox-container">
-        <img src={sumit} className="team-avater" alt="teamPic" />
+        <img src={require(`${i}`)} className="team-avater" alt="teamPic" />
         <p className="label">{member.name}</p>
       </div>
     );
