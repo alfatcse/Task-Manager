@@ -1,22 +1,23 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useGetTaskQuery } from "../../../../features/TaskAPi/TaskApi";
-import ferdews from "../../../../images/avatars/ferdous.png";
 import Task from "./Task";
 const TaskList = () => {
-  const { data: tasks, isError, isLoading, error } = useGetTaskQuery();
-  console.log(tasks);
-  let content = null;
+  const { data: tasksAPI, isError, isLoading, error } = useGetTaskQuery();
+  const {tasks}=useSelector((state)=>state.tasks)||{tasks:[]};
+  
+   let content = null;
   if (isLoading) {
     content = <div>Loading...</div>;
   }
   if (!isLoading && isError) {
     content = <div>An Error Occurred</div>;
   }
-  if (!isError && !isLoading && tasks.length === 0) {
+  if (!isError && !isLoading && tasksAPI?.length === 0&&tasks?.tasks?.length===0) {
     content = <div>No team Members Found</div>;
   }
-  if (!isError && !isLoading && tasks.length > 0) {
-    content = tasks.map((task) => (
+  if (!isError && !isLoading && tasksAPI.length > 0&&tasks?.tasks?.length>0) {
+    content = tasks?.tasks?.map((task) => (
       <Task key={task.id} task={task}></Task>
     ));
   }

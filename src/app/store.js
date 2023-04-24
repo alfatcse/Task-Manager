@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from '../features/api/apiSlice';
-import counterReducer from '../features/counter/counterSlice';
+import ProjectSlice from '../features/ProjectApi/ProjectSlice';
+import TaskSlice from '../features/TaskAPi/TaskSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
-    [apiSlice.reducerPath]:apiSlice.reducer
+    [apiSlice.reducerPath]:apiSlice.reducer,
+    tasks:TaskSlice,
+    project:ProjectSlice
   },
   middleware:(getDefaultMiddlewares)=>getDefaultMiddlewares().concat(apiSlice.middleware)
 });
