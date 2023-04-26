@@ -1,13 +1,31 @@
 import moment from "moment";
 import React, { useState } from "react";
+import { useDeleteTaskMutation, useEditStatusMutation } from "../../../../features/TaskAPi/TaskApi";
 const Task = ({ task }) => {
   var month = moment(new Date(task.deadline)).format("MMMM");
   var day = moment(new Date(task.deadline)).format("DD");
   let i = `.${task.teamMember.avatar}`;
-  const [statusValue, setStatusValue] = useState("");
+  const [editStatus, { isSuccess }] = useEditStatusMutation();
+  const [deleteTask,{isSuccess:isSuccessDelete}]=useDeleteTaskMutation();
+  const [statusValue, setStatusValue] = useState(task?.status);
   const handleChange = (e) => {
     setStatusValue(e.target.value);
+    const data={
+      taskName:task.taskName,
+      teamMember:task.teamMember,
+      project:task.project,
+      deadline:task.deadline,
+      status:e.target.value
+    };
+    editStatus({id:task.id,data})
   };
+  const handleDelete=()=>{
+    console.log('del',task.id);
+    const delId={
+      id:task.id
+    }
+    deleteTask(delId)
+  }
   return (
     <div className="lws-task">
       <div className="flex items-center gap-2 text-slate">
@@ -16,7 +34,7 @@ const Task = ({ task }) => {
       </div>
       <div className="lws-taskContainer ">
         <h1 className="lws-task-title">{task.taskName}</h1>
-        <span class={`lws-task-badge ${task.project.colorClass}`}>
+        <span className={`lws-task-badge ${task.project.colorClass}`}>
           {task.project.projectName}
         </span>
       </div>
@@ -25,8 +43,8 @@ const Task = ({ task }) => {
           <img src={require(`${i}`)} className="team-avater" alt="fer" />
           <p className="lws-task-assignedOn">{task.teamMember.name}</p>
         </div>
-        {statusValue === "complete" ? 
-          <button className="lws-delete">
+        {statusValue === "completed" ? (
+          <button onClick={handleDelete} className="lws-delete">
             <svg
               fill="none"
               viewBox="0 0 24 24"
@@ -41,7 +59,7 @@ const Task = ({ task }) => {
               />
             </svg>
           </button>
-        : 
+        ) : (
           <button className="lws-edit">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,13 +76,17 @@ const Task = ({ task }) => {
               />
             </svg>
           </button>
-        }
+        )}
         <select onChange={handleChange} className="lws-status">
-          <option value="pending" selected>
+          <option value="Pending" selected={"Pending" === task?.status}>
             Pending
           </option>
-          <option value="inProgress">In Progress</option>
-          <option value="complete">Completed</option>
+          <option value="inProgress" selected={"inProgress" === task?.status}>
+            In Progress
+          </option>
+          <option value="completed" selected={"completed" === task?.status}>
+            Completed
+          </option>
         </select>
       </div>
     </div>

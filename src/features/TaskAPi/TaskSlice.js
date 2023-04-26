@@ -26,28 +26,31 @@ const TaskSlice = createSlice({
             }
           })
         );
-      }
-      else if(action.payload.toggle === false){
-        state.projectSearch=state.projectSearch.filter(function(item){
-            return item!==action.payload.projectName
-        })
-        state.tasks.tasks = state.tasks.tasks.filter(function(item) {
-            return item.project.projectName !== action.payload.projectName
-        })
-        if(state.tasks.tasks.length===0){
-            state.tasks=state.tasksD;
+      } else if (action.payload.toggle === false) {
+        state.projectSearch = state.projectSearch.filter(function (item) {
+          return item !== action.payload.projectName;
+        });
+        state.tasks.tasks = state.tasks.tasks.filter(function (item) {
+          return item.project.projectName !== action.payload.projectName;
+        });
+        if (state.tasks.tasks.length === 0) {
+          state.tasks = state.tasksD;
         }
       }
     },
-    sortTasksWithProjects: (state) => {
-      const result = state.tasks.tasks.filter((i) =>
-        state.projectSearch.every((f) => f === i.project.projectName)
-      );
-      console.log(result);
-      state.p = result;
+    pushTask: (state, action) => {
+      state.tasks.tasks.push(action.payload);
+      state.tasksD = state.tasks;
+    },
+    deleteTask: (state, action) => {
+      console.log(action.payload);
+      state.tasks.tasks = state.tasks.tasks.filter(function (item) {
+        return item.id !== action.payload;
+      });
+      state.tasksD = state.tasks;
     },
   },
 });
-export const { getTasks, getProjectSearch, sortTasksWithProjects } =
+export const { getTasks, getProjectSearch, pushTask, deleteTask } =
   TaskSlice.actions;
 export default TaskSlice.reducer;
