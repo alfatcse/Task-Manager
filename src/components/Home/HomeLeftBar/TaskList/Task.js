@@ -1,9 +1,11 @@
 import moment from "moment";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { useDeleteTaskMutation, useEditStatusMutation } from "../../../../features/TaskAPi/TaskApi";
 const Task = ({ task }) => {
   var month = moment(new Date(task.deadline)).format("MMMM");
   var day = moment(new Date(task.deadline)).format("DD");
+  const navigate=useNavigate();
   let i = `.${task.teamMember.avatar}`;
   const [editStatus, { isSuccess }] = useEditStatusMutation();
   const [deleteTask,{isSuccess:isSuccessDelete}]=useDeleteTaskMutation();
@@ -20,11 +22,13 @@ const Task = ({ task }) => {
     editStatus({id:task.id,data})
   };
   const handleDelete=()=>{
-    console.log('del',task.id);
     const delId={
       id:task.id
     }
     deleteTask(delId)
+  }
+  const handleEdit=()=>{
+    navigate(`/editTask/${task.id}`)
   }
   return (
     <div className="lws-task">
@@ -60,7 +64,7 @@ const Task = ({ task }) => {
             </svg>
           </button>
         ) : (
-          <button className="lws-edit">
+          <button onClick={handleEdit} className="lws-edit">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -6,7 +6,6 @@ import { getProjectSearch } from "../../../../features/TaskAPi/TaskSlice";
 const Project = ({project}) => {
   const dispatch=useDispatch();
   const handleChecked=(e)=>{
-    console.log('che',e);
     const projectCheck={
       toggle:e,
       projectName:project.projectName

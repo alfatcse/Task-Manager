@@ -1,5 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
-import { getTasks, pushTask ,deleteTask} from "./TaskSlice";
+import { getTasks, pushTask, deleteTask } from "./TaskSlice";
 
 export const taskApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -57,5 +57,11 @@ export const taskApi = apiSlice.injectEndpoints({
     })
   }),
 });
-export const { useGetTaskQuery, useEditStatusMutation, useAddTaskMutation,useDeleteTaskMutation } =
-  taskApi;
+export const {
+  useGetTaskQuery,
+  useEditStatusMutation,
+  useAddTaskMutation,
+  useDeleteTaskMutation,
+  useTaskByIdQuery,
+  useEditTaskMutation,
+} = taskApi;
